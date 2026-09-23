@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>花蓮四維高中 - 姜福榮成績管理系統</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-hover: #2980b9;
+            --success-color: #2ecc71;
+            --success-hover: #27ae60;
+            --warning-color: #f39c12;
+            --warning-hover: #e67e22;
+            --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
+            --text-color: #2c3e50;
+            --light-bg: #f4f7f6;
+            --border-color: #dcdde1;
+            --table-stripe: #f8f9fa;
+            --separator-color: #7f8c8d;
+        }
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* 通用管理區塊 */
+        .manager-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            background: #fdfdfd;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .tab-btn {
+            padding: 8px 18px;
+            font-size: 15px;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            background-color: #fff;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover { background-color: #eaf4fc; }
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        .btn-sm {
+            padding: 7px 14px;
+            font-size: 13px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn-add { background-color: var(--success-color); }
+        .btn-add:hover { background-color: var(--success-hover); }
+        .btn-del { background-color: var(--danger-color); }
+        .btn-del:hover { background-color: var(--danger-hover); }
+        .btn-copy { background-color: #9b59b6; }
+        .btn-copy:hover { background-color: #8e44ad; }
+        .btn-import { background-color: #1abc9c; }
+        .btn-import:hover { background-color: #16a085; }
+
+        /* 配分設定區塊 */
+        .settings-panel {
+            background-color: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        .settings-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f4f7f6;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+        .settings-group label { font-weight: bold; font-size: 13px; }
+        .settings-group input {
+            width: 45px; padding: 4px; text-align: center;
+            border: 1px solid #ccc; border-radius: 4px; font-weight: bold;
+        }
+        .settings-group input:focus { outline: none; border-color: var(--primary-color); }
+        .warning-text { color: var(--danger-color); font-weight: bold; font-size: 13px; display: none; }
+
+        /* 表格設計 */
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1150px;
+        }
+        th, td {
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 4px;
+            text-align: center;
+        }
+        th {
+            background-color: #34495e;
+            color: #fff;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            font-size: 13px;
+        }
+        th .weights { font-size: 11px; color: #f1c40f; display: block; margin-top: 2px; }
+        tbody tr:nth-child(even) { background-color: var(--table-stripe); }
+        tbody tr:hover { background-color: #eaf4fc; }
+        
+        /* 直桿分隔線 */
+        .sep-right {
+            border-right: 3px solid var(--separator-color) !important;
+        }
+        th.sep-right {
+            border-right: 3px solid #ecf0f1 !important;
+        }
+
+        input[type="number"] {
+            width: 50px; padding: 5px; text-align: center;
+            border: 1px solid #ccc; border-radius: 4px; font-size: 14px;
+        }
+        input[type="number"]:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 4px rgba(52, 152, 219, 0.4); }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+        
+        .total-score { font-weight: bold; color: var(--success-color); font-size: 16px; background-color: #eafaf1; border-radius: 4px; }
+        .daily-score { font-weight: bold; color: var(--warning-color); font-size: 15px; }
+
+        /* 操作按鈕與頁尾 */
+        .controls {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px; margin-top: 10px;
+        }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn {
+            padding: 10px 20px; border: none; border-radius: 6px;
+            cursor: pointer; font-size: 14px; font-weight: bold;
+            transition: background 0.3s, transform 0.1s; color: white;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-save { background-color: var(--success-color); }
+        .btn-save:hover { background-color: var(--success-hover); }
+        .btn-export { background-color: var(--warning-color); }
+        .btn-export:hover { background-color: var(--warning-hover); }
+        .btn-import-file { background-color: #1abc9c; }
+        .btn-import-file:hover { background-color: #16a085; }
+        .btn-add-student { background-color: var(--primary-color); }
+        .btn-add-student:hover { background-color: var(--primary-hover); }
+        .btn-action {
+            padding: 4px 8px; font-size: 12px; border-radius: 4px; margin: 0 1px;
+            border: none; cursor: pointer; color: white;
+        }
+        .btn-edit { background-color: #95a5a6; }
+        .btn-edit:hover { background-color: #7f8c8d; }
+
+        .footer-info {
+            text-align: right;
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-color);
+        }
+        .footer-info a { color: var(--primary-color); text-decoration: none; }
+        .footer-info a:hover { text-decoration: underline; }
+
+        .status-msg { text-align: center; margin-top: 15px; color: var(--success-color); font-weight: bold; min-height: 24px; font-size: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>花蓮四維高中</h1>
+    <div class="subtitle">成績管理系統 | 設計教師：姜福榮</div>
+
+    <!-- 科目管理 -->
+    <div class="manager-panel" style="background-color: #eaf4fc; border-color: #bce0fd;">
+        <span style="font-weight:bold; color:#2980b9;">📚 科目切換：</span>
+        <div class="tabs" id="subject-tabs"></div>
+        <button class="btn-sm btn-add" onclick="addSubject()">➕ 新增科目</button>
+        <button class="btn-sm btn-del" onclick="deleteSubject()">🗑️ 刪除當前科目</button>
+    </div>
+
+    <!-- 班級管理 -->
+    <div class="manager-panel">
+        <span style="font-weight:bold; color:#555;">🏫 班級切換：</span>
+        <div class="tabs" id="class-tabs"></div>
+        <button class="btn-sm btn-add" onclick="addClass()">➕ 新增班級</button>
+        <button class="btn-sm btn-del" onclick="deleteClass()">🗑️ 刪除當前班級</button>
+        <button class="btn-sm btn-copy" onclick="copyClassList()">📋 複製其他科目名單</button>
+    </div>
+
+    <!-- 配分設定區 -->
+    <div class="settings-panel">
+        <div class="settings-group"><label>第一次段考</label> <input type="number" id="w_exam1" value="20" min="0" max="100" onchange="updateSettings()"> %</div>
+        <div class="settings-group"><label>第二次段考</label> <input type="number" id="w_exam2" value="20" min="0" max="100" onchange="updateSettings()"> %</div>
+        <div class="settings-group"><label>期末考</label> <input type="number" id="w_exam3" value="30" min="0" max="100" onchange="updateSettings()"> %</div>
+        <div class="settings-group" style="border: 2px solid var(--primary-color);"><label>平時成績</label> <input type="number" id="w_daily" value="30" min="0" max="100" onchange="updateSettings()"> %</div>
+        <div class="warning-text" id="total-weight-warning">配分總和不等於 100%！</div>
+    </div>
+
+    <div class="settings-panel" style="background-color: #f0f8ff; border-color: #bce0fd;">
+        <div style="font-weight: bold; color: var(--primary-color); width: 100%; text-align: center; margin-bottom: -10px;">平時成績細項權重（占平時成績之比例）</div>
+        <div class="settings-group"><label>小考/隨堂測驗</label> <input type="number" id="w_daily_quiz" value="45" min="0" max="100" onchange="updateSettings()"> %</div>
+        <div class="settings-group"><label>作業/報告</label> <input type="number" id="w_daily_hw" value="35" min="0" max="100" onchange="updateSettings()"> %</div>
+        <div class="settings-group"><label>參與/出席</label> <input type="number" id="w_daily_part" value="20" min="0" max="100" onchange="updateSettings()"> %</div>
+        <div class="warning-text" id="daily-weight-warning">平時細項總和不等於 100%！</div>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">座號</th>
+                    <th style="width: 9%;">姓名</th>
+                    <th style="width: 8%;">第一次段考<span class="weights" id="th_w1">20%</span></th>
+                    <th style="width: 8%;">第二次段考<span class="weights" id="th_w2">20%</span></th>
+                    <th style="width: 8%;" class="sep-right">期末考<span class="weights" id="th_w3">30%</span></th>
+                    <th style="width: 8%;">小考/測驗<span class="weights" id="th_wq">45%</span></th>
+                    <th style="width: 8%;">作業/報告<span class="weights" id="th_wh">35%</span></th>
+                    <th style="width: 8%;">參與/出席<span class="weights" id="th_wp">20%</span></th>
+                    <th style="width: 8%;" class="sep-right">平時加權<span class="weights" id="th_wd">30%</span></th>
+                    <th style="width: 9%;">總成績</th>
+                    <th style="width: 12%;">操作</th>
+                </tr>
+            </thead>
+            <tbody id="student-list"></tbody>
+        </table>
+    </div>
+
+    <div class="controls">
+        <div class="btn-group">
+            <button class="btn btn-add-student" onclick="addStudent()">➕ 新增學生</button>
+            <button class="btn btn-save" onclick="forceSave()">💾 儲存目前設定</button>
+            <button class="btn btn-export" onclick="exportExcel()">📥 匯出 Excel (CSV)</button>
+            <button class="btn btn-import-file" onclick="document.getElementById('importFileInput').click()">📤 匯入 Excel (CSV)</button>
+            <input type="file" id="importFileInput" accept=".csv" style="display: none;" onchange="importExcel(event)">
+        </div>
+    </div>
+    
+    <div class="status-msg" id="status-msg"></div>
+    
+    <!-- 版本與聯絡資訊 -->
+    <div class="footer-info">
+        版本：v3.1 (修改意見請E-mail: <a href="mailto:teb150@swsh.hlc.edu.tw">teb150@swsh.hlc.edu.tw</a>)
+    </div>
+</div>
+
+<script>
+    // 定義共用學生名單
+    const sharedStudents = {
+        "305": [
+            {id: "01", name: "張芷旋"}, {id: "02", name: "楊若伶"}, {id: "03", name: "劉晨樺"}, {id: "04", name: "陳嘉伶"},
+            {id: "05", name: "陳姵蓉"}, {id: "06", name: "石芮珊"}, {id: "07", name: "何信樺"}, {id: "08", name: "李婉歆"},
+            {id: "09", name: "鄭婉柔"}, {id: "10", name: "盧宇翔"}, {id: "11", name: "高宏諺"}, {id: "12", name: "徐欣怡"},
+            {id: "13", name: "葉雨蓁"}, {id: "14", name: "張文豪"}, {id: "15", name: "朱婉婷"}, {id: "16", name: "王昱翔"},
+            {id: "17", name: "陳沛紜"}, {id: "18", name: "莊峻杰"}, {id: "19", name: "張芊晨"}, {id: "20", name: "林逸軒"},
+            {id: "21", name: "葉芯慈"}, {id: "22", name: "謝恩惠"}, {id: "23", name: "林宛庭"}, {id: "24", name: "范嘉芸"},
+            {id: "25", name: "黃品凱"}, {id: "26", name: "盧哲新"}, {id: "27", name: "范家瑩"}, {id: "28", name: "陳政源"},
+            {id: "29", name: "張向傑"}, {id: "30", name: "陳喜悅"}, {id: "31", name: "柳可璇"}, {id: "32", name: "黃靖寧"}
+        ],
+        "306": [
+            {id: "01", name: "黃璽恩"}, {id: "02", name: "吳定遠"}, {id: "03", name: "黃世誼"}, 
+            {id: "05", name: "陳郁庭"}, {id: "06", name: "洪享燁"}, {id: "07", name: "曾俊熙"}, 
+            {id: "08", name: "謝丹葳"}, {id: "09", name: "李祖賢"}, {id: "10", name: "冉家睿"}, {id: "11", name: "馬玉玲"}, 
+            {id: "12", name: "盧冠丞"}, {id: "13", name: "林梓璿"}, {id: "14", name: "張秉任"}, 
+            {id: "15", name: "黃鳳凰"}, {id: "17", name: "鄧彥貞"}, {id: "18", name: "馮憶珍"}, 
+            {id: "19", name: "曾家豐"}, {id: "20", name: "吳宜璟"}, {id: "21", name: "田趙嘉恩"}, {id: "22", name: "林苡彤"}, 
+            {id: "23", name: "簡語婕"}, {id: "24", name: "張弘軒"}, {id: "25", name: "劉思杰"}, {id: "26", name: "林呈宥"}, 
+            {id: "27", name: "陳聖邦"}, {id: "28", name: "林思岑"}, {id: "29", name: "林潔"}, {id: "30", name: "林皓文"}, 
+            {id: "31", name: "黃嘉怡"}, {id: "32", name: "嚴禹哲"}
+        ],
+        "307": [
+            {id: "01", name: "張佳芯"}, {id: "02", name: "江欣蕙"}, {id: "03", name: "田少凡"}, {id: "04", name: "方可心"},
+            {id: "05", name: "龔悅"}, {id: "06", name: "湯喻茹"}, {id: "07", name: "宋俊宇"}, {id: "08", name: "何信諺"},
+            {id: "09", name: "黃義恩"}, {id: "10", name: "曾羽馨"}, {id: "11", name: "楊渝萱"}, {id: "12", name: "卓亞玟"},
+            {id: "13", name: "宋承恩"}, {id: "14", name: "溫郁忻"}, {id: "15", name: "范秀雯"}, {id: "16", name: "楊紜茵"},
+            {id: "17", name: "黃嘉琳"}, {id: "18", name: "廖笠安"}, {id: "19", name: "張恩芝"}, {id: "20", name: "邵佩芬"},
+            {id: "21", name: "陳玉萍"}, {id: "22", name: "白祈安"}, {id: "23", name: "郭美岑"}, {id: "24", name: "陳馨甜"},
+            {id: "25", name: "江芳瑜"}, {id: "26", name: "林聖恩"}, {id: "27", name: "李訓賢"}, {id: "28", name: "石元昊"},
+            {id: "29", name: "黃岷亨"}, {id: "30", name: "江洧林"}, {id: "31", name: "彭智輝"}, {id: "32", name: "吳柏暄"}
+        ]
+    };
+
+    // 預設科目與資料結構
+    const defaultData = {
+        "導覽解說實務": {
+            weights: { exam1: 20, exam2: 20, exam3: 30, daily: 30, daily_quiz: 45, daily_hw: 35, daily_part: 20 },
+            classes: JSON.parse(JSON.stringify(sharedStudents)),
+            grades: { "305": {}, "306": {}, "307": {} }
+        },
+        "旅遊實務": {
+            weights: { exam1: 20, exam2: 20, exam3: 30, daily: 30, daily_quiz: 45, daily_hw: 35, daily_part: 20 },
+            classes: JSON.parse(JSON.stringify(sharedStudents)),
+            grades: { "305": {}, "306": {}, "307": {} }
+        },
+        "領隊實務": {
+            weights: { exam1: 20, exam2: 20, exam3: 30, daily: 30, daily_quiz: 45, daily_hw: 35, daily_part: 20 },
+            classes: JSON.parse(JSON.stringify(sharedStudents)),
+            grades: { "305": {}, "306": {}, "307": {} }
+        }
+    };
+
+    const STORAGE_KEY = "teacher_grade_system_data_v3";
+    
+    let currentSubject = "導覽解說實務";
+    let currentClass = "305";
+    let allData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || JSON.parse(JSON.stringify(defaultData));
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderSubjectTabs();
+        renderClassTabs();
+        loadWeightsToUI();
+        renderTable();
+        checkWeights();
+    });
+
+    // ---------- 輔助函式 ----------
+    // 座號排序（支援數字與字串）
+    function sortStudents(a, b) {
+        let numA = parseInt(a.id, 10);
+        let numB = parseInt(b.id, 10);
+        if (isNaN(numA) || isNaN(numB)) {
+            return a.id.localeCompare(b.id);
+        }
+        return numA - numB;
+    }
+
+    // 分數鉗制（0~100）
+    function clampScore(val) {
+        if (val === '' || val === null || val === undefined) return '';
+        let num = parseFloat(val);
+        if (isNaN(num)) return '';
+        return Math.max(0, Math.min(100, num));
+    }
+
+    // ---------- 科目管理 ----------
+    function renderSubjectTabs() {
+        const container = document.getElementById('subject-tabs');
+        container.innerHTML = '';
+        const subjects = Object.keys(allData);
+        
+        if (subjects.length === 0) {
+            container.innerHTML = '<span style="color:#e74c3c; font-weight:bold;">無科目，請點擊右側新增</span>';
+            currentSubject = "";
+            return;
+        }
+        if (!allData[currentSubject]) currentSubject = subjects[0];
+
+        subjects.forEach(subj => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${subj === currentSubject ? 'active' : ''}`;
+            btn.innerText = subj;
+            btn.onclick = () => switchSubject(subj);
+            container.appendChild(btn);
+        });
+    }
+
+    function switchSubject(subj) {
+        currentSubject = subj;
+        const classes = Object.keys(allData[currentSubject].classes);
+        currentClass = classes.length > 0 ? classes[0] : "";
+        renderSubjectTabs();
+        renderClassTabs();
+        loadWeightsToUI();
+        renderTable();
+        showStatus(`已切換至科目：${subj}`);
+    }
+
+    function addSubject() {
+        let newSubj = prompt("請輸入新科目名稱（例如：觀光地理）：");
+        if (newSubj === null) return;
+        newSubj = newSubj.trim();
+        if (newSubj === "") { alert("科目名稱不能為空！"); return; }
+        if (allData[newSubj]) { alert(`科目「${newSubj}」已存在！`); return; }
+
+        allData[newSubj] = {
+            weights: { exam1: 20, exam2: 20, exam3: 30, daily: 30, daily_quiz: 45, daily_hw: 35, daily_part: 20 },
+            classes: {},
+            grades: {}
+        };
+        currentSubject = newSubj;
+        saveData();
+        switchSubject(newSubj);
+        showStatus(`已成功新增科目：${newSubj}`);
+    }
+
+    function deleteSubject() {
+        if (!currentSubject) return;
+        if (confirm(`⚠️ 確定要刪除科目「${currentSubject}」及其所有班級與成績嗎？此動作無法復原！`)) {
+            delete allData[currentSubject];
+            const subjects = Object.keys(allData);
+            currentSubject = subjects.length > 0 ? subjects[0] : "";
+            if (currentSubject) {
+                const classes = Object.keys(allData[currentSubject].classes);
+                currentClass = classes.length > 0 ? classes[0] : "";
+            } else {
+                currentClass = "";
+            }
+            saveData();
+            renderSubjectTabs();
+            renderClassTabs();
+            loadWeightsToUI();
+            renderTable();
+            showStatus(`已刪除科目。`);
+        }
+    }
+
+    // ---------- 班級管理 ----------
+    function renderClassTabs() {
+        const container = document.getElementById('class-tabs');
+        container.innerHTML = '';
+        if (!currentSubject || !allData[currentSubject]) {
+            container.innerHTML = '<span style="color:#999;">請先選擇科目</span>';
+            return;
+        }
+        
+        const classes = Object.keys(allData[currentSubject].classes);
+        if (classes.length === 0) {
+            container.innerHTML = '<span style="color:#e74c3c; font-weight:bold;">無班級，請點擊右側新增</span>';
+            currentClass = "";
+            return;
+        }
+        if (!allData[currentSubject].classes[currentClass]) currentClass = classes[0];
+
+        classes.forEach(cls => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${cls === currentClass ? 'active' : ''}`;
+            btn.innerText = `綜${cls}`;
+            btn.onclick = () => switchClass(cls);
+            container.appendChild(btn);
+        });
+    }
+
+    function switchClass(className) {
+        currentClass = className;
+        renderClassTabs();
+        renderTable();
+        showStatus(`已切換至綜${className}`);
+    }
+
+    function addClass() {
+        if (!currentSubject) { alert("請先新增或選擇一個科目！"); return; }
+        let newClass = prompt("請輸入新班級名稱（例如：308）：");
+        if (newClass === null) return;
+        newClass = newClass.trim();
+        if (newClass === "") { alert("班級名稱不能為空！"); return; }
+        if (allData[currentSubject].classes[newClass]) { alert(`班級「${newClass}」已存在！`); return; }
+
+        allData[currentSubject].classes[newClass] = [];
+        allData[currentSubject].grades[newClass] = {};
+        currentClass = newClass;
+        saveData();
+        renderClassTabs();
+        renderTable();
+        showStatus(`已成功新增班級：綜${newClass}`);
+    }
+
+    function deleteClass() {
+        if (!currentSubject || !currentClass) return;
+        if (confirm(`⚠️ 確定要刪除「綜${currentClass}」整個班級及其所有學生成績嗎？此動作無法復原！`)) {
+            delete allData[currentSubject].classes[currentClass];
+            delete allData[currentSubject].grades[currentClass];
+            const classes = Object.keys(allData[currentSubject].classes);
+            currentClass = classes.length > 0 ? classes[0] : "";
+            saveData();
+            renderClassTabs();
+            renderTable();
+            showStatus(`已刪除班級。`);
+        }
+    }
+
+    function copyClassList() {
+        if (!currentSubject) { alert("請先選擇一個科目！"); return; }
+        const subjects = Object.keys(allData).filter(s => s !== currentSubject);
+        if (subjects.length === 0) { alert("沒有其他科目可以複製！"); return; }
+        
+        let sourceSubject = prompt(`請輸入要從哪個科目複製名單（可選：${subjects.join("、")}）：`);
+        if (sourceSubject === null) return;
+        sourceSubject = sourceSubject.trim();
+        if (!allData[sourceSubject]) { alert("輸入的科目不存在！"); return; }
+        
+        if (confirm(`⚠️ 確定要將「${sourceSubject}」的班級與學生名單覆蓋到「${currentSubject}」嗎？\n（這會覆蓋目前的班級與名單，但不會清除已輸入的成績）`)) {
+            allData[currentSubject].classes = JSON.parse(JSON.stringify(allData[sourceSubject].classes));
+            Object.keys(allData[currentSubject].classes).forEach(cls => {
+                if (!allData[currentSubject].grades[cls]) {
+                    allData[currentSubject].grades[cls] = {};
+                }
+            });
+            saveData();
+            const classes = Object.keys(allData[currentSubject].classes);
+            currentClass = classes.length > 0 ? classes[0] : "";
+            renderClassTabs();
+            renderTable();
+            showStatus(`已成功從「${sourceSubject}」複製名單！`);
+        }
+    }
+
+    // ---------- 配分設定 ----------
+    function loadWeightsToUI() {
+        if (!currentSubject || !allData[currentSubject]) return;
+        const w = allData[currentSubject].weights;
+        document.getElementById('w_exam1').value = w.exam1;
+        document.getElementById('w_exam2').value = w.exam2;
+        document.getElementById('w_exam3').value = w.exam3;
+        document.getElementById('w_daily').value = w.daily;
+        document.getElementById('w_daily_quiz').value = w.daily_quiz;
+        document.getElementById('w_daily_hw').value = w.daily_hw;
+        document.getElementById('w_daily_part').value = w.daily_part;
+        updateHeaderWeights();
+        checkWeights();
+    }
+
+    function updateSettings() {
+        if (!currentSubject || !allData[currentSubject]) return;
+        const w = allData[currentSubject].weights;
+        w.exam1 = parseFloat(document.getElementById('w_exam1').value) || 0;
+        w.exam2 = parseFloat(document.getElementById('w_exam2').value) || 0;
+        w.exam3 = parseFloat(document.getElementById('w_exam3').value) || 0;
+        w.daily = parseFloat(document.getElementById('w_daily').value) || 0;
+        w.daily_quiz = parseFloat(document.getElementById('w_daily_quiz').value) || 0;
+        w.daily_hw = parseFloat(document.getElementById('w_daily_hw').value) || 0;
+        w.daily_part = parseFloat(document.getElementById('w_daily_part').value) || 0;
+
+        saveData();
+        updateHeaderWeights();
+        checkWeights();
+        renderTable();
+    }
+
+    function checkWeights() {
+        if (!currentSubject || !allData[currentSubject]) return;
+        const w = allData[currentSubject].weights;
+        const totalWeight = w.exam1 + w.exam2 + w.exam3 + w.daily;
+        const dailyWeight = w.daily_quiz + w.daily_hw + w.daily_part;
+        // 使用容差比較，避免浮點數誤差
+        document.getElementById('total-weight-warning').style.display = (Math.abs(totalWeight - 100) > 0.01) ? 'inline' : 'none';
+        document.getElementById('daily-weight-warning').style.display = (Math.abs(dailyWeight - 100) > 0.01) ? 'inline' : 'none';
+    }
+
+    function updateHeaderWeights() {
+        if (!currentSubject || !allData[currentSubject]) return;
+        const w = allData[currentSubject].weights;
+        document.getElementById('th_w1').innerText = w.exam1 + '%';
+        document.getElementById('th_w2').innerText = w.exam2 + '%';
+        document.getElementById('th_w3').innerText = w.exam3 + '%';
+        document.getElementById('th_wq').innerText = w.daily_quiz + '%';
+        document.getElementById('th_wh').innerText = w.daily_hw + '%';
+        document.getElementById('th_wp').innerText = w.daily_part + '%';
+        document.getElementById('th_wd').innerText = w.daily + '%';
+    }
+
+    // ---------- 學生管理與成績渲染 ----------
+    function renderTable() {
+        const tbody = document.getElementById('student-list');
+        tbody.innerHTML = '';
+
+        if (!currentSubject || !currentClass || !allData[currentSubject].classes[currentClass]) {
+            tbody.innerHTML = '<tr><td colspan="11" style="padding:20px; color:#999;">無資料，請新增科目、班級與學生。</td></tr>';
+            return;
+        }
+
+        const students = allData[currentSubject].classes[currentClass];
+        if (students.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="11" style="padding:20px; color:#999;">本班尚無學生，請點擊下方「新增學生」。</td></tr>';
+            return;
+        }
+
+        const classGrades = allData[currentSubject].grades[currentClass] || {};
+        const w = allData[currentSubject].weights;
+
+        students.forEach(student => {
+            const grades = classGrades[student.id] || { exam1: '', exam2: '', exam3: '', daily_quiz: '', daily_hw: '', daily_part: '' };
+            
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${student.id}</td>
+                <td>${student.name}</td>
+                <td><input type="number" min="0" max="100" value="${grades.exam1}" onchange="updateGrade('${student.id}', 'exam1', this.value)" oninput="calcRow('${student.id}')" id="exam1_${student.id}"></td>
+                <td><input type="number" min="0" max="100" value="${grades.exam2}" onchange="updateGrade('${student.id}', 'exam2', this.value)" oninput="calcRow('${student.id}')" id="exam2_${student.id}"></td>
+                <td class="sep-right"><input type="number" min="0" max="100" value="${grades.exam3}" onchange="updateGrade('${student.id}', 'exam3', this.value)" oninput="calcRow('${student.id}')" id="exam3_${student.id}"></td>
+                <td><input type="number" min="0" max="100" value="${grades.daily_quiz}" onchange="updateGrade('${student.id}', 'daily_quiz', this.value)" oninput="calcRow('${student.id}')" id="daily_quiz_${student.id}"></td>
+                <td><input type="number" min="0" max="100" value="${grades.daily_hw}" onchange="updateGrade('${student.id}', 'daily_hw', this.value)" oninput="calcRow('${student.id}')" id="daily_hw_${student.id}"></td>
+                <td><input type="number" min="0" max="100" value="${grades.daily_part}" onchange="updateGrade('${student.id}', 'daily_part', this.value)" oninput="calcRow('${student.id}')" id="daily_part_${student.id}"></td>
+                <td class="daily-score sep-right" id="daily_total_${student.id}">-</td>
+                <td class="total-score" id="total_${student.id}">-</td>
+                <td>
+                    <button class="btn-action btn-edit" onclick="editStudent('${student.id}')">✏️ 修改</button>
+                    <button class="btn-action btn-del" onclick="deleteStudent('${student.id}')">❌ 刪除</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+            calcRow(student.id);
+        });
+    }
+
+    function updateGrade(id, field, value) {
+        if (!allData[currentSubject].grades[currentClass]) allData[currentSubject].grades[currentClass] = {};
+        if (!allData[currentSubject].grades[currentClass][id]) allData[currentSubject].grades[currentClass][id] = {};
+        
+        // 分數鉗制
+        allData[currentSubject].grades[currentClass][id][field] = clampScore(value);
+        saveData();
+        calcRow(id);
+    }
+
+    function calcRow(id) {
+        if (!currentSubject || !allData[currentSubject]) return;
+        const w = allData[currentSubject].weights;
+        
+        // 取得值並即時鉗制，防止輸入超範圍數值時算出錯誤總分
+        const getVal = (field) => {
+            const input = document.getElementById(`${field}_${id}`);
+            if (!input || input.value === '') return 0;
+            let num = parseFloat(input.value);
+            if (isNaN(num)) return 0;
+            return Math.max(0, Math.min(100, num));
+        };
+        const hasVal = (field) => {
+            const input = document.getElementById(`${field}_${id}`);
+            return input && input.value !== '';
+        };
+
+        const exam1 = getVal('exam1'), exam2 = getVal('exam2'), exam3 = getVal('exam3');
+        const q = getVal('daily_quiz'), h = getVal('daily_hw'), p = getVal('daily_part');
+
+        let dailyTotal = 0, dailyHasVal = false;
+        if (hasVal('daily_quiz') || hasVal('daily_hw') || hasVal('daily_part')) {
+            dailyHasVal = true;
+            dailyTotal = (q * w.daily_quiz + h * w.daily_hw + p * w.daily_part) / 100;
+        }
+        const dailyCell = document.getElementById(`daily_total_${id}`);
+        if (dailyCell) dailyCell.innerText = dailyHasVal ? (Math.round(dailyTotal * 10) / 10) : '-';
+
+        const totalCell = document.getElementById(`total_${id}`);
+        if (totalCell) {
+            if (hasVal('exam1') || hasVal('exam2') || hasVal('exam3') || dailyHasVal) {
+                const totalScore = (exam1 * w.exam1 + exam2 * w.exam2 + exam3 * w.exam3 + dailyTotal * w.daily) / 100;
+                totalCell.innerText = Math.round(totalScore * 10) / 10;
+            } else {
+                totalCell.innerText = '-';
+            }
+        }
+    }
+
+    function addStudent() {
+        if (!currentSubject || !currentClass) { alert("請先選擇科目與班級！"); return; }
+        let id = prompt("請輸入學生的座號（例如：33）：");
+        if (id === null) return;
+        id = id.trim();
+        if (id === "") { alert("座號不能為空！"); return; }
+        if (allData[currentSubject].classes[currentClass].find(s => s.id === id)) { alert(`座號 ${id} 已存在！`); return; }
+        
+        let name = prompt(`請輸入座號 ${id} 的學生姓名：`);
+        if (name === null) return;
+        name = name.trim();
+        if (name === "") { alert("姓名不能為空！"); return; }
+
+        allData[currentSubject].classes[currentClass].push({ id: id, name: name });
+        allData[currentSubject].classes[currentClass].sort(sortStudents);
+        saveData();
+        renderTable();
+        showStatus(`已新增學生：${id} ${name}`);
+    }
+
+    function editStudent(id) {
+        if (!currentSubject || !currentClass) return;
+        const student = allData[currentSubject].classes[currentClass].find(s => s.id === id);
+        if (!student) return;
+        
+        let newId = prompt(`請修改座號（原：${student.id}）：`, student.id);
+        if (newId === null) return;
+        newId = newId.trim();
+        if (newId === "") { alert("座號不能為空！"); return; }
+        if (newId !== student.id && allData[currentSubject].classes[currentClass].find(s => s.id === newId)) {
+            alert(`座號 ${newId} 已存在，無法修改！`); return;
+        }
+
+        let newName = prompt(`請修改姓名（原：${student.name}）：`, student.name);
+        if (newName === null) return;
+        newName = newName.trim();
+        if (newName === "") { alert("姓名不能為空！"); return; }
+
+        // 若座號有變，轉移成績
+        if (newId !== student.id) {
+            if (allData[currentSubject].grades[currentClass][student.id]) {
+                allData[currentSubject].grades[currentClass][newId] = allData[currentSubject].grades[currentClass][student.id];
+                delete allData[currentSubject].grades[currentClass][student.id];
+            }
+        }
+        
+        student.id = newId;
+        student.name = newName;
+        allData[currentSubject].classes[currentClass].sort(sortStudents);
+        saveData();
+        renderTable();
+        showStatus(`已修改學生資料：${newId} ${newName}`);
+    }
+
+    function deleteStudent(id) {
+        if (!currentSubject || !currentClass) return;
+        const student = allData[currentSubject].classes[currentClass].find(s => s.id === id);
+        if (!student) return;
+        if (confirm(`⚠️ 確定要刪除學生「${student.id} ${student.name}」及其成績嗎？`)) {
+            allData[currentSubject].classes[currentClass] = allData[currentSubject].classes[currentClass].filter(s => s.id !== id);
+            if (allData[currentSubject].grades[currentClass][id]) {
+                delete allData[currentSubject].grades[currentClass][id];
+            }
+            saveData();
+            renderTable();
+            showStatus(`已刪除學生：${student.id} ${student.name}`);
+        }
+    }
+
+    // ---------- 儲存與匯出/匯入 ----------
+    function saveData() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+    }
+
+    function forceSave() {
+        saveData();
+        showStatus("所有科目、班級、學生與配分設定已成功儲存！");
+        setTimeout(() => { showStatus(""); }, 3000);
+    }
+
+    function exportExcel() {
+        if (!currentSubject || !currentClass || !allData[currentSubject].classes[currentClass]) { alert("無資料可匯出！"); return; }
+        
+        let csvContent = "\uFEFF"; 
+        const w = allData[currentSubject].weights;
+        csvContent += `科目,班級,座號,姓名,第一次段考(${w.exam1}%),第二次段考(${w.exam2}%),期末考(${w.exam3}%),小考(${w.daily_quiz}%),作業(${w.daily_hw}%),參與(${w.daily_part}%),平時加權(${w.daily}%),總成績\n`;
+
+        const students = allData[currentSubject].classes[currentClass];
+        const classGrades = allData[currentSubject].grades[currentClass] || {};
+
+        students.forEach(student => {
+            const g = classGrades[student.id] || {};
+            const exam1 = g.exam1 || 0, exam2 = g.exam2 || 0, exam3 = g.exam3 || 0;
+            const q = g.daily_quiz || 0, h = g.daily_hw || 0, p = g.daily_part || 0;
+            
+            const dailyTotal = (q * w.daily_quiz + h * w.daily_hw + p * w.daily_part) / 100;
+            const total = (exam1 * w.exam1 + exam2 * w.exam2 + exam3 * w.exam3 + dailyTotal * w.daily) / 100;
+
+            const hasData = (g.exam1 !== undefined || g.exam2 !== undefined || g.exam3 !== undefined || g.daily_quiz !== undefined || g.daily_hw !== undefined || g.daily_part !== undefined);
+            const dailyTotalStr = (g.daily_quiz !== undefined || g.daily_hw !== undefined || g.daily_part !== undefined) ? (Math.round(dailyTotal * 10) / 10) : '';
+            const totalStr = hasData ? (Math.round(total * 10) / 10) : '';
+
+            csvContent += `${currentSubject},綜${currentClass},${student.id},${student.name},${g.exam1 || ''},${g.exam2 || ''},${g.exam3 || ''},${g.daily_quiz || ''},${g.daily_hw || ''},${g.daily_part || ''},${dailyTotalStr},${totalStr}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `${currentSubject}_綜${currentClass}_成績.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showStatus("Excel 檔已匯出！");
+        setTimeout(() => { showStatus(""); }, 3000);
+    }
+
+    // 匯入 Excel (CSV)
+    function importExcel(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            // 處理 \r\n 與 \n
+            const lines = text.split(/\r?\n/).filter(line => line.trim() !== '');
+            
+            if (lines.length < 2) { alert("檔案內容為空或格式錯誤！"); return; }
+
+            // 解析標題列，確認格式
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            if (headers.length < 12 || headers[0].replace('\uFEFF', '').trim() !== '科目') {
+                alert("檔案格式不符！請匯入由本系統匯出的 CSV 檔。"); return;
+            }
+
+            if (!confirm(`⚠️ 匯入將會覆蓋當前科目（${currentSubject}）的所有資料，確定要繼續嗎？`)) {
+                event.target.value = ''; return;
+            }
+
+            // 解析資料列
+            const newStudentsMap = {};
+            const newGradesMap = {};
+
+            for (let i = 1; i < lines.length; i++) {
+                // 標準 CSV 分割（假設欄位內無逗號，若有則需更複雜的解析器，但本系統匯出時無此問題）
+                const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                if (cols.length < 12) continue;
+
+                const cls = cols[1].replace('綜', '');
+                const id = cols[2];
+                const name = cols[3];
+                const exam1 = cols[4];
+                const exam2 = cols[5];
+                const exam3 = cols[6];
+                const daily_quiz = cols[7];
+                const daily_hw = cols[8];
+                const daily_part = cols[9];
+
+                if (!newStudentsMap[cls]) newStudentsMap[cls] = [];
+                if (!newGradesMap[cls]) newGradesMap[cls] = {};
+
+                newStudentsMap[cls].push({ id, name });
+                
+                const grades = {};
+                if (exam1 !== '') grades.exam1 = parseFloat(exam1);
+                if (exam2 !== '') grades.exam2 = parseFloat(exam2);
+                if (exam3 !== '') grades.exam3 = parseFloat(exam3);
+                if (daily_quiz !== '') grades.daily_quiz = parseFloat(daily_quiz);
+                if (daily_hw !== '') grades.daily_hw = parseFloat(daily_hw);
+                if (daily_part !== '') grades.daily_part = parseFloat(daily_part);
+                
+                newGradesMap[cls][id] = grades;
+            }
+
+            const classesInFile = Object.keys(newStudentsMap);
+            if (classesInFile.length === 0) { alert("檔案中沒有有效的學生資料！"); return; }
+
+            // 將匯入的資料寫入當前科目
+            classesInFile.forEach(cls => {
+                allData[currentSubject].classes[cls] = newStudentsMap[cls];
+                allData[currentSubject].classes[cls].sort(sortStudents);
+                allData[currentSubject].grades[cls] = newGradesMap[cls];
+            });
+
+            saveData();
+            currentClass = classesInFile[0];
+            renderClassTabs();
+            renderTable();
+            showStatus(`已成功匯入資料！`);
+            event.target.value = ''; // 清空檔案選擇
+        };
+        reader.readAsText(file);
+    }
+
+    function showStatus(msg) {
+        document.getElementById('status-msg').innerText = msg;
+    }
+</script>
+</body>
+</html>
