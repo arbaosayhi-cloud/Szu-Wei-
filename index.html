@@ -35,63 +35,30 @@
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
-        h1 {
-            text-align: center;
-            color: var(--text-color);
-            margin-bottom: 5px;
-            font-size: 24px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
+        h1 { text-align: center; color: var(--text-color); margin-bottom: 5px; font-size: 24px; }
+        .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 15px; }
 
         /* 通用管理區塊 */
         .manager-panel {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            background: #fdfdfd;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; margin-bottom: 12px; background: #fdfdfd;
+            padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);
             flex-wrap: wrap;
         }
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
+        .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
         .tab-btn {
-            padding: 8px 18px;
-            font-size: 15px;
-            border: 2px solid var(--primary-color);
-            border-radius: 25px;
-            background-color: #fff;
-            color: var(--primary-color);
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            padding: 8px 18px; font-size: 15px; border: 2px solid var(--primary-color);
+            border-radius: 25px; background-color: #fff; color: var(--primary-color);
+            cursor: pointer; font-weight: bold; transition: all 0.3s ease;
         }
         .tab-btn:hover { background-color: #eaf4fc; }
         .tab-btn.active {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--primary-color); color: white;
             box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
         }
         .btn-sm {
-            padding: 7px 14px;
-            font-size: 13px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
+            padding: 7px 14px; font-size: 13px; border-radius: 20px;
+            border: none; cursor: pointer; color: white; font-weight: bold;
             transition: background 0.2s;
         }
         .btn-add { background-color: var(--success-color); }
@@ -100,30 +67,18 @@
         .btn-del:hover { background-color: var(--danger-hover); }
         .btn-copy { background-color: #9b59b6; }
         .btn-copy:hover { background-color: #8e44ad; }
-        .btn-import { background-color: #1abc9c; }
-        .btn-import:hover { background-color: #16a085; }
+        .btn-manual { background-color: #f39c12; }
+        .btn-manual:hover { background-color: #e67e22; }
 
         /* 配分設定區塊 */
         .settings-panel {
-            background-color: #fdfdfd;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 20px;
-            margin-bottom: 12px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-            justify-content: center;
+            background-color: #fdfdfd; border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 12px 20px; margin-bottom: 12px;
+            display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: center;
         }
         .settings-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f4f7f6;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
+            display: flex; align-items: center; gap: 8px;
+            background: #f4f7f6; padding: 6px 12px; border-radius: 6px; border: 1px solid #e0e0e0;
         }
         .settings-group label { font-weight: bold; font-size: 13px; }
         .settings-group input {
@@ -135,41 +90,23 @@
 
         /* 表格設計 */
         .table-responsive {
-            overflow-x: auto;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            overflow-x: auto; margin-bottom: 20px;
+            border-radius: 8px; border: 1px solid var(--border-color);
             -webkit-overflow-scrolling: touch;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1150px;
-        }
-        th, td {
-            border-bottom: 1px solid var(--border-color);
-            padding: 8px 4px;
-            text-align: center;
-        }
+        table { width: 100%; border-collapse: collapse; min-width: 1150px; }
+        th, td { border-bottom: 1px solid var(--border-color); padding: 8px 4px; text-align: center; }
         th {
-            background-color: #34495e;
-            color: #fff;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
-            font-size: 13px;
+            background-color: #34495e; color: #fff; font-weight: bold;
+            position: sticky; top: 0; font-size: 13px;
         }
         th .weights { font-size: 11px; color: #f1c40f; display: block; margin-top: 2px; }
         tbody tr:nth-child(even) { background-color: var(--table-stripe); }
         tbody tr:hover { background-color: #eaf4fc; }
         
         /* 直桿分隔線 */
-        .sep-right {
-            border-right: 3px solid var(--separator-color) !important;
-        }
-        th.sep-right {
-            border-right: 3px solid #ecf0f1 !important;
-        }
+        .sep-right { border-right: 3px solid var(--separator-color) !important; }
+        th.sep-right { border-right: 3px solid #ecf0f1 !important; }
 
         input[type="number"] {
             width: 50px; padding: 5px; text-align: center;
@@ -203,6 +140,8 @@
         .btn-import-file:hover { background-color: #16a085; }
         .btn-add-student { background-color: var(--primary-color); }
         .btn-add-student:hover { background-color: var(--primary-hover); }
+        .btn-clear-class { background-color: #e74c3c; }
+        .btn-clear-class:hover { background-color: #c0392b; }
         .btn-action {
             padding: 4px 8px; font-size: 12px; border-radius: 4px; margin: 0 1px;
             border: none; cursor: pointer; color: white;
@@ -211,17 +150,54 @@
         .btn-edit:hover { background-color: #7f8c8d; }
 
         .footer-info {
-            text-align: right;
-            font-size: 13px;
-            color: #7f8c8d;
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--border-color);
+            text-align: right; font-size: 13px; color: #7f8c8d;
+            margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--border-color);
         }
         .footer-info a { color: var(--primary-color); text-decoration: none; }
         .footer-info a:hover { text-decoration: underline; }
 
         .status-msg { text-align: center; margin-top: 15px; color: var(--success-color); font-weight: bold; min-height: 24px; font-size: 15px; }
+
+        /* 說明書 Modal 樣式 */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; 
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); 
+            overflow-y: auto;
+        }
+        .modal-content {
+            background-color: #fff; margin: 30px auto; padding: 30px;
+            border-radius: 12px; width: 90%; max-width: 800px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative; line-height: 1.6;
+        }
+        .close-btn {
+            position: absolute; top: 15px; right: 20px; font-size: 28px;
+            font-weight: bold; color: #aaa; cursor: pointer; transition: color 0.2s;
+        }
+        .close-btn:hover { color: var(--danger-color); }
+        
+        .modal-content h2 { color: var(--primary-color); border-bottom: 2px solid #eaf4fc; padding-bottom: 10px; margin-top: 0; }
+        .modal-content h3 { color: var(--text-color); margin-top: 25px; }
+        .modal-content p { margin-bottom: 10px; }
+        .modal-content ul { margin-top: 5px; margin-bottom: 15px; padding-left: 20px; }
+        .modal-content li { margin-bottom: 5px; }
+        .highlight-box {
+            background-color: #f0f8ff; border-left: 5px solid var(--primary-color);
+            padding: 15px; border-radius: 0 8px 8px 0; margin: 15px 0;
+        }
+        .warning-box {
+            background-color: #fdf2f2; border-left: 5px solid var(--danger-color);
+            padding: 15px; border-radius: 0 8px 8px 0; margin: 15px 0;
+        }
+        .step-title {
+            display: inline-block; background-color: var(--primary-color);
+            color: white; padding: 3px 12px; border-radius: 15px;
+            font-size: 14px; margin-bottom: 5px;
+        }
+        .modal-footer {
+            text-align: center; margin-top: 30px; padding-top: 15px;
+            border-top: 1px dashed var(--border-color); font-size: 13px; color: #7f8c8d;
+        }
     </style>
 </head>
 <body>
@@ -236,6 +212,7 @@
         <div class="tabs" id="subject-tabs"></div>
         <button class="btn-sm btn-add" onclick="addSubject()">➕ 新增科目</button>
         <button class="btn-sm btn-del" onclick="deleteSubject()">🗑️ 刪除當前科目</button>
+        <button class="btn-sm btn-manual" onclick="openManual()">📖 使用說明</button>
     </div>
 
     <!-- 班級管理 -->
@@ -291,6 +268,7 @@
             <button class="btn btn-save" onclick="forceSave()">💾 儲存目前設定</button>
             <button class="btn btn-export" onclick="exportExcel()">📥 匯出 Excel (CSV)</button>
             <button class="btn btn-import-file" onclick="document.getElementById('importFileInput').click()">📤 匯入 Excel (CSV)</button>
+            <button class="btn btn-clear-class" onclick="clearCurrentClassGrades()">🗑️ 清除本班成績</button>
             <input type="file" id="importFileInput" accept=".csv" style="display: none;" onchange="importExcel(event)">
         </div>
     </div>
@@ -299,7 +277,85 @@
     
     <!-- 版本與聯絡資訊 -->
     <div class="footer-info">
-        版本：v3.1 (修改意見請E-mail: <a href="mailto:teb150@swsh.hlc.edu.tw">teb150@swsh.hlc.edu.tw</a>)
+        版本：v4.1 (修改意見請E-mail: <a href="mailto:teb150@swsh.hlc.edu.tw">teb150@swsh.hlc.edu.tw</a>)
+    </div>
+</div>
+
+<!-- ================= 使用說明書 Modal ================= -->
+<div id="manualModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeManual()">&times;</span>
+        <h2>🌟 姜福榮老師專屬！成績管理系統 快速上手說明書</h2>
+        <p style="font-size: 16px; color: #7f8c8d; font-weight: bold;">告別計算機，讓段考與平時成績一秒搞定！</p>
+        
+        <p>親愛的老師們，大家好：<br>為了減輕大家結算成績的負擔，特別開發了這套專屬的「成績管理系統」。不需要安裝任何軟體，只要有瀏覽器就能用。以下為您快速介紹這套系統的操作方式與核心特色！</p>
+
+        <div class="highlight-box">
+            <h3 style="margin-top:0;">💡 核心觀念：為什麼大家共用一個網址，卻不會互相影響？</h3>
+            <p>這套系統最棒的特點是<strong>「純本機儲存（LocalStorage）」</strong>。您可以把它想像成：</p>
+            <p style="font-style: italic; font-weight: bold; color: #2980b9;">「系統網址就像一間自助式的『數位成績櫃』。大家都可以打開同一扇門，但每個人手裡拿著不同的鑰匙（自己的瀏覽器），只會打開屬於自己的專屬抽屜。」</p>
+            <ul>
+                <li>✅ <strong>網址共用</strong>：大家打開的都是同一個系統介面，方便互相分享。</li>
+                <li>✅ <strong>獨立儲存</strong>：A老師輸入的成績，B老師絕對看不到；B老師修改配分，也不會影響到A老師。</li>
+                <li>✅ <strong>各自安好</strong>：每位老師可以依照自己的教學需求，建立自己的科目、班級與成績。</li>
+            </ul>
+        </div>
+
+        <h3>🚀 快速上手：三步驟開始打成績</h3>
+        
+        <div style="margin-bottom: 15px;">
+            <div class="step-title">📍 步驟一：建立專屬科目與班級</div>
+            <ol>
+                <li>用 Chrome、Edge 或 Safari 瀏覽器打開系統網址。</li>
+                <li>在上方「📚 科目切換」區塊，點擊「➕ 新增科目」，輸入您要評分的科目名稱。</li>
+                <li>在「🏫 班級切換」區塊，點擊「➕ 新增班級」，輸入班級名稱。</li>
+                <li>（小撇步）如果您想沿用別人的名單，可以點擊「📋 複製其他科目名單」，快速帶入學生座號與姓名。</li>
+            </ol>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <div class="step-title">📍 步驟二：設定成績配分</div>
+            <ol>
+                <li>在中間「配分設定」區塊，輸入您要的百分比（例如：第一次段考 20%、第二次段考 20%、期末考 30%、平時成績 30%）。</li>
+                <li>下方可以設定「平時成績」的細項權重（例如：小考 45%、作業 35%、參與度 20%）。</li>
+                <li>⚠️ <strong>貼心提醒</strong>：若配分總和不等於 100%，畫面會出現紅字提醒，請務必調整到總和為 100%。</li>
+            </ol>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <div class="step-title">📍 步驟三：輸入學生成績</div>
+            <ol>
+                <li>直接在表格中輸入學生的分數（0~100分）。</li>
+                <li>系統會<strong>即時自動計算</strong>「平時加權」與「總成績」，不需要手動按計算機。</li>
+                <li>輸入完畢後，資料會自動儲存在您的瀏覽器中，關閉網頁也不會遺失。</li>
+            </ol>
+        </div>
+
+        <div class="warning-box">
+            <h3 style="margin-top:0; color: #c0392b;">💾 資料備份與跨設備轉移（極重要！請養成好習慣）</h3>
+            <p>因為資料只存在您當前使用的電腦裡，如果您換了電腦、換了瀏覽器，或者學校電腦還原了，資料就會不見。請善用以下功能：</p>
+            <ul>
+                <li><strong>📥 匯出 Excel (CSV)</strong>：點擊後會下載一個 CSV 檔。建議每次打完一個段落就匯出一次，當作備份。</li>
+                <li><strong>📤 匯入 Excel (CSV)</strong>：如果您在學校電腦打完成績，回家想用筆電繼續打，請先將 CSV 檔存到隨身碟或雲端，回家打開系統後點擊「匯入」，就能完美還原所有班級與成績！</li>
+            </ul>
+        </div>
+
+        <h3>❓ 常見問題 (FAQ)</h3>
+        <p><strong>Q1：我換了一台電腦打開網址，為什麼成績都不見了？</strong><br>
+        A：因為系統是將資料存在您原本那台電腦的瀏覽器中。請使用「📥 匯出 Excel」將檔案帶到新電腦，再使用「📤 匯入 Excel」還原。</p>
+        
+        <p><strong>Q2：我不小心按到「刪除班級」或「刪除學生」怎麼辦？</strong><br>
+        A：系統在刪除前都會跳出確認視窗。若真的誤刪，資料將無法復原，強烈建議您隨時使用「匯出 Excel」來備份重要成績。</p>
+        
+        <p><strong>Q3：可以兩個人一起編輯同一份成績單嗎？</strong><br>
+        A：不行。這套系統是設計給「單機各自使用」的。如果您需要兩人共同編輯，請由其中一人打完成績後，將 CSV 檔傳給另一人匯入合併。</p>
+        
+        <p><strong>Q4：為什麼我輸入 105 分，系統顯示 100 分？</strong><br>
+        A：系統有防呆機制，會自動將分數限制在 0~100 分之間，避免計算出錯誤的總成績。</p>
+
+        <div class="modal-footer">
+            版本：v4.1 | 設計教師：姜福榮 | 修改意見請 E-mail：teb150@swsh.hlc.edu.tw
+        </div>
     </div>
 </div>
 
@@ -339,7 +395,6 @@
         ]
     };
 
-    // 預設科目與資料結構
     const defaultData = {
         "導覽解說實務": {
             weights: { exam1: 20, exam2: 20, exam3: 30, daily: 30, daily_quiz: 45, daily_hw: 35, daily_part: 20 },
@@ -358,7 +413,8 @@
         }
     };
 
-    const STORAGE_KEY = "teacher_grade_system_data_v3";
+    const STORAGE_KEY = "teacher_grade_system_data_v4_1";
+    const MANUAL_SHOWN_KEY = "teacher_grade_system_manual_shown_v4_1";
     
     let currentSubject = "導覽解說實務";
     let currentClass = "305";
@@ -370,25 +426,60 @@
         loadWeightsToUI();
         renderTable();
         checkWeights();
+
+        // 首次打開自動彈出說明書
+        if (!localStorage.getItem(MANUAL_SHOWN_KEY)) {
+            setTimeout(() => {
+                openManual();
+                localStorage.setItem(MANUAL_SHOWN_KEY, "true");
+            }, 500);
+        }
+    });
+
+    // ---------- 說明書控制 ----------
+    function openManual() {
+        document.getElementById('manualModal').style.display = 'block';
+    }
+    function closeManual() {
+        document.getElementById('manualModal').style.display = 'none';
+    }
+    // 點擊 Modal 外部關閉
+    window.onclick = function(event) {
+        const modal = document.getElementById('manualModal');
+        if (event.target == modal) {
+            closeManual();
+        }
+    }
+    // 鍵盤 Esc 關閉
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeManual();
+        }
     });
 
     // ---------- 輔助函式 ----------
-    // 座號排序（支援數字與字串）
     function sortStudents(a, b) {
         let numA = parseInt(a.id, 10);
         let numB = parseInt(b.id, 10);
-        if (isNaN(numA) || isNaN(numB)) {
-            return a.id.localeCompare(b.id);
-        }
+        if (isNaN(numA) || isNaN(numB)) return a.id.localeCompare(b.id);
         return numA - numB;
     }
 
-    // 分數鉗制（0~100）
     function clampScore(val) {
         if (val === '' || val === null || val === undefined) return '';
         let num = parseFloat(val);
         if (isNaN(num)) return '';
         return Math.max(0, Math.min(100, num));
+    }
+
+    // CSV 轉義函式，處理逗號與雙引號
+    function escapeCSV(str) {
+        if (str === null || str === undefined) return '';
+        str = String(str);
+        if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+            return '"' + str.replace(/"/g, '""') + '"';
+        }
+        return str;
     }
 
     // ---------- 科目管理 ----------
@@ -535,6 +626,7 @@
         let sourceSubject = prompt(`請輸入要從哪個科目複製名單（可選：${subjects.join("、")}）：`);
         if (sourceSubject === null) return;
         sourceSubject = sourceSubject.trim();
+        if (sourceSubject === currentSubject) { alert("來源科目與目標科目相同，無需複製！"); return; }
         if (!allData[sourceSubject]) { alert("輸入的科目不存在！"); return; }
         
         if (confirm(`⚠️ 確定要將「${sourceSubject}」的班級與學生名單覆蓋到「${currentSubject}」嗎？\n（這會覆蓋目前的班級與名單，但不會清除已輸入的成績）`)) {
@@ -590,7 +682,6 @@
         const w = allData[currentSubject].weights;
         const totalWeight = w.exam1 + w.exam2 + w.exam3 + w.daily;
         const dailyWeight = w.daily_quiz + w.daily_hw + w.daily_part;
-        // 使用容差比較，避免浮點數誤差
         document.getElementById('total-weight-warning').style.display = (Math.abs(totalWeight - 100) > 0.01) ? 'inline' : 'none';
         document.getElementById('daily-weight-warning').style.display = (Math.abs(dailyWeight - 100) > 0.01) ? 'inline' : 'none';
     }
@@ -655,7 +746,6 @@
         if (!allData[currentSubject].grades[currentClass]) allData[currentSubject].grades[currentClass] = {};
         if (!allData[currentSubject].grades[currentClass][id]) allData[currentSubject].grades[currentClass][id] = {};
         
-        // 分數鉗制
         allData[currentSubject].grades[currentClass][id][field] = clampScore(value);
         saveData();
         calcRow(id);
@@ -665,7 +755,6 @@
         if (!currentSubject || !allData[currentSubject]) return;
         const w = allData[currentSubject].weights;
         
-        // 取得值並即時鉗制，防止輸入超範圍數值時算出錯誤總分
         const getVal = (field) => {
             const input = document.getElementById(`${field}_${id}`);
             if (!input || input.value === '') return 0;
@@ -738,7 +827,6 @@
         newName = newName.trim();
         if (newName === "") { alert("姓名不能為空！"); return; }
 
-        // 若座號有變，轉移成績
         if (newId !== student.id) {
             if (allData[currentSubject].grades[currentClass][student.id]) {
                 allData[currentSubject].grades[currentClass][newId] = allData[currentSubject].grades[currentClass][student.id];
@@ -766,6 +854,17 @@
             saveData();
             renderTable();
             showStatus(`已刪除學生：${student.id} ${student.name}`);
+        }
+    }
+
+    // 清除本班成績
+    function clearCurrentClassGrades() {
+        if (!currentSubject || !currentClass) { alert("請先選擇科目與班級！"); return; }
+        if (confirm(`⚠️ 確定要清除「綜${currentClass}」全班的所有成績嗎？\n（這會保留學生名單與座號，但會清空所有分數）`)) {
+            allData[currentSubject].grades[currentClass] = {};
+            saveData();
+            renderTable();
+            showStatus(`已清除綜${currentClass}的全班成績。`);
         }
     }
 
@@ -802,7 +901,7 @@
             const dailyTotalStr = (g.daily_quiz !== undefined || g.daily_hw !== undefined || g.daily_part !== undefined) ? (Math.round(dailyTotal * 10) / 10) : '';
             const totalStr = hasData ? (Math.round(total * 10) / 10) : '';
 
-            csvContent += `${currentSubject},綜${currentClass},${student.id},${student.name},${g.exam1 || ''},${g.exam2 || ''},${g.exam3 || ''},${g.daily_quiz || ''},${g.daily_hw || ''},${g.daily_part || ''},${dailyTotalStr},${totalStr}\n`;
+            csvContent += `${escapeCSV(currentSubject)},${escapeCSV('綜'+currentClass)},${escapeCSV(student.id)},${escapeCSV(student.name)},${g.exam1 || ''},${g.exam2 || ''},${g.exam3 || ''},${g.daily_quiz || ''},${g.daily_hw || ''},${g.daily_part || ''},${dailyTotalStr},${totalStr}\n`;
         });
 
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -818,7 +917,6 @@
         setTimeout(() => { showStatus(""); }, 3000);
     }
 
-    // 匯入 Excel (CSV)
     function importExcel(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -826,12 +924,10 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             const text = e.target.result;
-            // 處理 \r\n 與 \n
             const lines = text.split(/\r?\n/).filter(line => line.trim() !== '');
             
             if (lines.length < 2) { alert("檔案內容為空或格式錯誤！"); return; }
 
-            // 解析標題列，確認格式
             const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
             if (headers.length < 12 || headers[0].replace('\uFEFF', '').trim() !== '科目') {
                 alert("檔案格式不符！請匯入由本系統匯出的 CSV 檔。"); return;
@@ -841,13 +937,27 @@
                 event.target.value = ''; return;
             }
 
-            // 解析資料列
             const newStudentsMap = {};
             const newGradesMap = {};
 
             for (let i = 1; i < lines.length; i++) {
-                // 標準 CSV 分割（假設欄位內無逗號，若有則需更複雜的解析器，但本系統匯出時無此問題）
-                const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                // 簡單處理 CSV 逗號，若欄位內有逗號（因匯出時有做轉義），需處理引號
+                let cols = [];
+                let inQuotes = false;
+                let currentCol = '';
+                for (let char of lines[i]) {
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        cols.push(currentCol);
+                        currentCol = '';
+                    } else {
+                        currentCol += char;
+                    }
+                }
+                cols.push(currentCol);
+                cols = cols.map(c => c.trim().replace(/^"|"$/g, '').replace(/""/g, '"'));
+
                 if (cols.length < 12) continue;
 
                 const cls = cols[1].replace('綜', '');
@@ -879,8 +989,13 @@
             const classesInFile = Object.keys(newStudentsMap);
             if (classesInFile.length === 0) { alert("檔案中沒有有效的學生資料！"); return; }
 
-            // 將匯入的資料寫入當前科目
             classesInFile.forEach(cls => {
+                if (!allData[currentSubject].classes[cls]) {
+                    allData[currentSubject].classes[cls] = [];
+                }
+                if (!allData[currentSubject].grades[cls]) {
+                    allData[currentSubject].grades[cls] = {};
+                }
                 allData[currentSubject].classes[cls] = newStudentsMap[cls];
                 allData[currentSubject].classes[cls].sort(sortStudents);
                 allData[currentSubject].grades[cls] = newGradesMap[cls];
@@ -891,7 +1006,7 @@
             renderClassTabs();
             renderTable();
             showStatus(`已成功匯入資料！`);
-            event.target.value = ''; // 清空檔案選擇
+            event.target.value = ''; 
         };
         reader.readAsText(file);
     }
